@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+
+        android:background="@drawable/index_background">
+        <!-- top bar-->
+        <include layout="@layout/top_bar"></include>
+
+        <include layout="@layout/pan_layout"></include>
+        <!-- cd -->
+        <include layout="@layout/name_select1"></include>
+
+    </LinearLayout>
+
+
+    <include layout="@layout/float_buttons"></include>
+    <include layout="@layout/answer_right"></include>
+
+</FrameLayout>
