@@ -63,7 +63,7 @@ public class ChatListActivity_Apple extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ChatListActivity_Apple.this,BaseActivity.class);
+                Intent intent=new Intent(ChatListActivity_Apple.this,FirstZcActivity.class);
                 startActivity(intent);
             }
         });

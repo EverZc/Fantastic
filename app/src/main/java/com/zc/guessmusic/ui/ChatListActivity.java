@@ -63,7 +63,7 @@ public class ChatListActivity extends BaseActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ChatListActivity.this,BaseActivity.class);
+                Intent intent=new Intent(ChatListActivity.this,FirstZcActivity.class);
                 startActivity(intent);
             }
         });

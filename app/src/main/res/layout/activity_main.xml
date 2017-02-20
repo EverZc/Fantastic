@@ -1,7 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SlidingPaneLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <FrameLayout
+        android:layout_width="100dp"
+        android:id="@+id/left__e"
+        android:layout_height="match_parent">
+
+        <RadioGroup
+            android:id="@+id/full_left"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/disc_genre_bg"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/disc_tuijian"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="成都"
+                android:background="@drawable/disc_tv_red"
+
+                android:button="@null"
+                android:textColor="#ccc"/>
+            <RadioButton
+                android:id="@+id/disc_liuxing"
+                android:gravity="center"
+                android:background="@drawable/disc_tv_red"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="海阔天空"
+                android:button="@null"
+                android:textColor="#ccc"/>
+            <RadioButton
+                android:id="@+id/disc_minyao"
+                android:gravity="center"
+                android:background="@drawable/disc_tv_red"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="喜欢你"
+                android:button="@null"
+                android:textColor="#ccc"/>
+            <RadioButton
+                android:id="@+id/disc_dianzi"
+                android:gravity="center"
+                android:background="@drawable/disc_tv_red"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="小幸运"
+                android:button="@null"
+                android:textColor="#ccc"/>
+            <RadioButton
+                android:id="@+id/disc_yaogun"
+                android:gravity="center"
+                android:background="@drawable/disc_tv_red"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="南山南"
+                android:button="@null"
+                android:textColor="#ccc"/>
+            <RadioButton
+                android:id="@+id/disc_jinshu"
+                android:gravity="center"
+                android:background="@drawable/disc_tv_red"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="鸿雁"
+                android:button="@null"
+                android:textColor="#ccc"/>
+            <RadioButton
+                android:id="@+id/disc_shuochang"
+                android:gravity="center"
+                android:background="@drawable/disc_tv_red"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="我的歌声里"
+                android:button="@null"
+                android:textColor="#ccc"/>
+           <!-- <RadioButton
+                android:id="@+id/disc_rb"
+                android:gravity="center"
+                android:background="@drawable/disc_tv_red"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="RB"
+                android:button="@null"
+                android:textColor="#ccc"/>
+            <RadioButton
+                android:id="@+id/disc_jueshi"
+                android:gravity="center"
+                android:background="@drawable/disc_tv_red"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="爵士"
+                android:button="@null"
+                android:textColor="#ccc"/>
+            <RadioButton
+                android:id="@+id/disc_landiao"
+                android:gravity="center"
+                android:background="@drawable/disc_tv_red"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="蓝调"
+                android:button="@null"
+                android:textColor="#ccc"/>
+            <RadioButton
+                android:id="@+id/disc_chunyinyue"
+                android:gravity="center"
+                android:background="@drawable/disc_tv_red"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="纯音乐"
+                android:button="@null"
+                android:textColor="#ccc"/>-->
+        </RadioGroup>
+
+    </FrameLayout>
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -21,9 +140,7 @@
         <include layout="@layout/name_select1"></include>
 
     </LinearLayout>
-
-
     <include layout="@layout/float_buttons"></include>
     <include layout="@layout/answer_right"></include>
-
 </FrameLayout>
+</android.support.v4.widget.SlidingPaneLayout>

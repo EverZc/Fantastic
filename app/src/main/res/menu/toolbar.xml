@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu__chat"
+        android:icon="@drawable/apple"
+        android:title="聊天"
+        android:showAsAction="never"
+        >
+
+    </item>
+    <item
+        android:id="@+id/menu_guessmusic"
+        android:icon="@drawable/android"
+        android:title="疯狂猜歌游戏"
+        android:showAsAction="never">
+
+    </item>
+    <item
+        android:id="@+id/menu_basketball"
+        android:icon="@drawable/apple"
+        android:title="篮球教学"
+        android:showAsAction="never">
+
+    </item>
+</menu>

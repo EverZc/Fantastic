@@ -5,9 +5,10 @@
 
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">#ff000000</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="FruitActivityTheme" parent="AppTheme"></style>
     <style name="myTheme" parent=""></style>
     <style name="Theme.Transparent" parent="@android:style/Theme.DeviceDefault.Dialog">
         <!-- 透明处 代表透明-->

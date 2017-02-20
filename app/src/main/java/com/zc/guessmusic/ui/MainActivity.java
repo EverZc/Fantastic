@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.zc.guessmusic.R;
@@ -27,6 +29,7 @@ import com.zc.guessmusic.util.MyPlayer;
 import com.zc.guessmusic.util.Util;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -86,10 +89,33 @@ public class MainActivity extends BaseActivity implements IWordButtonClickListen
     private ImageButton imageButtonShare;
     //返回键
     private ImageButton imageButtonReturn;
+    //侧拉
+    private RadioGroup radioGroup;
+    private RadioButton rbtuijian,rbliuxing,rbminyao,rbdianzi,rbyaogun,rbjinshu,rbshuochang;
+    private List<RadioButton> buttonList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        buttonList=new ArrayList<>();
+        //侧拉界面
+        radioGroup= (RadioGroup) findViewById(R.id.full_left);
+        rbtuijian= (RadioButton) findViewById(R.id.disc_tuijian);
+        buttonList.add(rbtuijian);
+        rbliuxing= (RadioButton) findViewById(R.id.disc_liuxing);
+        buttonList.add(rbliuxing);
+        rbminyao= (RadioButton) findViewById(R.id.disc_minyao);
+        buttonList.add(rbminyao);
+        rbdianzi= (RadioButton) findViewById(R.id.disc_dianzi);
+        buttonList.add(rbdianzi);
+        rbyaogun= (RadioButton) findViewById(R.id.disc_yaogun);
+        buttonList.add(rbyaogun);
+        rbjinshu= (RadioButton) findViewById(R.id.disc_jinshu);
+        buttonList.add(rbjinshu);
+        rbshuochang= (RadioButton) findViewById(R.id.disc_shuochang);
+        buttonList.add(rbshuochang);
         //分享
         imageButtonShare= (ImageButton) findViewById(R.id.btn_share);
         imageButtonShare.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +133,7 @@ public class MainActivity extends BaseActivity implements IWordButtonClickListen
         imageButtonReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,BaseActivity.class);
+                Intent intent=new Intent(MainActivity.this,FirstZcActivity.class);
                 startActivity(intent);
             }
         });
@@ -124,9 +150,12 @@ public class MainActivity extends BaseActivity implements IWordButtonClickListen
         DeleteWord();
         //处理提示事件
         TipWord();
+        radioGrouplistener();
 
 
     }
+
+
     //加载动画
     private void ActionLoad() {
         //初始化动画
@@ -236,6 +265,8 @@ public class MainActivity extends BaseActivity implements IWordButtonClickListen
     private void initCurrentStageData(){
         //读取当前关的歌曲信息
         mCurrentSong=loadCurrentSong(++mCurrentStageIndex);
+        //radioButton设置为True
+        buttonList.get(mCurrentStageIndex).setChecked(true);
         //清空原来的答案
         mViewWordsContainer.removeAllViews();
         //初始化已选择框  增加新的答案框
@@ -436,6 +467,73 @@ public class MainActivity extends BaseActivity implements IWordButtonClickListen
         Timer timer=new Timer();
         timer.schedule(task,1,150);
     }
+    //侧拉监听
+    private void radioGrouplistener() {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.disc_tuijian:
+                        // 停止未完成的动画
+                        mViewPan.clearAnimation();
+                        //停止正在播放的音乐
+                        MyPlayer.stopTheSong(MainActivity.this);
+                        //加载关卡数据
+                        initCurrentStageData_Sliding(0);
+                        break;
+                    case R.id.disc_liuxing:
+                        // 停止未完成的动画
+                        mViewPan.clearAnimation();
+                        //停止正在播放的音乐
+                        MyPlayer.stopTheSong(MainActivity.this);
+                        //加载关卡数据
+                        initCurrentStageData_Sliding(1);
+                        break;
+                    case R.id.disc_minyao:
+                        // 停止未完成的动画
+                        mViewPan.clearAnimation();
+                        //停止正在播放的音乐
+                        MyPlayer.stopTheSong(MainActivity.this);
+                        //加载关卡数据
+                        initCurrentStageData_Sliding(2);
+                        break;
+                    case R.id.disc_dianzi:
+                        // 停止未完成的动画
+                        mViewPan.clearAnimation();
+                        //停止正在播放的音乐
+                        MyPlayer.stopTheSong(MainActivity.this);
+                        //加载关卡数据
+                        initCurrentStageData_Sliding(3);
+                        break;
+                    case R.id.disc_yaogun:
+                        // 停止未完成的动画
+                        mViewPan.clearAnimation();
+                        //停止正在播放的音乐
+                        MyPlayer.stopTheSong(MainActivity.this);
+                        //加载关卡数据
+                        initCurrentStageData_Sliding(4);
+                        break;
+                    case R.id.disc_jinshu:
+                        // 停止未完成的动画
+                        mViewPan.clearAnimation();
+                        //停止正在播放的音乐
+                        MyPlayer.stopTheSong(MainActivity.this);
+                        //加载关卡数据
+                        initCurrentStageData_Sliding(5);
+                        break;
+                    case R.id.disc_shuochang:
+                        // 停止未完成的动画
+                        mViewPan.clearAnimation();
+                        //停止正在播放的音乐
+                        MyPlayer.stopTheSong(MainActivity.this);
+                        //加载关卡数据
+                        initCurrentStageData_Sliding(6);
+                        break;
+                    default:
+                }
+            }
+        });
+    }
     //处理过关界面及事件
     private void handlePassEvent(){
         //显示过关界面
@@ -471,6 +569,7 @@ public class MainActivity extends BaseActivity implements IWordButtonClickListen
                 }else {
                     //跳转到下一关
                     mPassView.setVisibility(View.GONE);
+
                     //加载关卡数据
                     initCurrentStageData();
                 }
@@ -598,7 +697,6 @@ public class MainActivity extends BaseActivity implements IWordButtonClickListen
         }
         return result;
     }
-
     //自定义AlertDialog事件响应
     //删除错误答案
     private IAlertDialogButtonListener mBtnOkDeleteWordListener=new IAlertDialogButtonListener() {
@@ -637,5 +735,34 @@ public class MainActivity extends BaseActivity implements IWordButtonClickListen
                         mBtnOkLackCoinsListener);
                 break;
         }
+    }
+
+    //侧拉显示当前关卡数据
+    //初始化当前关的数据
+    private void initCurrentStageData_Sliding(int inti){
+        mCurrentStageIndex=inti;
+        //读取当前关的歌曲信息
+        mCurrentSong=loadCurrentSong(inti);
+        //清空原来的答案
+        mViewWordsContainer.removeAllViews();
+        //初始化已选择框  增加新的答案框
+        mWordSelect =initWordSelect();
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(140,140);
+        for (int i = 0; i < mWordSelect.size(); i++) {
+            //已选择文字框的容器
+            mViewWordsContainer.addView(mWordSelect.get(i).mViewButton,
+                    params);
+        }
+        //显示当前的索引
+        mCurrentStageView= (TextView) findViewById(R.id.text_title);
+        if (mCurrentStageView!=null){
+            mCurrentStageView.setText((mCurrentStageIndex+1)+"");
+        }
+        //获得数据
+        mAllWords=initAllWorid();
+        //更新数据  MyGridView
+        myGridView.updateData(mAllWords);
+        //一开始就播放音乐
+        handlePlayButton();
     }
 }
