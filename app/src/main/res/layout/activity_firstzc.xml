@@ -25,7 +25,6 @@
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
-
                 >
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
@@ -42,55 +41,90 @@
                >
             </android.support.v7.widget.RecyclerView>
         </android.support.v4.widget.SwipeRefreshLayout>
+
         <RelativeLayout
+
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView_b"
-                android:src="@drawable/b"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+            android:layout_height="match_parent"
+           >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView_c"
                 android:src="@drawable/c"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_marginRight="60dp"
+                android:layout_marginEnd="53dp"
+                android:layout_marginBottom="53dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView_d"
                 android:src="@drawable/d"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_marginRight="60dp"
+                android:layout_marginEnd="53dp"
+                android:layout_marginBottom="53dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView_e"
                 android:src="@drawable/wechat"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_marginRight="60dp"
+                android:layout_marginEnd="53dp"
+                android:layout_marginBottom="53dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView_b"
+                android:src="@drawable/basketball1"
+                android:layout_marginRight="60dp"
+                android:layout_marginEnd="53dp"
+                android:layout_marginBottom="53dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+ />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView_a"
                 android:src="@drawable/a"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_marginRight="60dp"
+                android:layout_marginEnd="49dp"
+                android:layout_marginBottom="49dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                 />
+
+            <!--<ImageView
+                android:id="@+id/vector"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/sun_system"
+               android:layout_marginRight="10dp"
+                android:adjustViewBounds="false"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true" />-->
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
     <android.support.design.widget.NavigationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/first_nav"
-
+        app:menu="@menu/nav_menu"
         app:headerLayout="@layout/nav_header"
         android:layout_gravity="start">
     </android.support.design.widget.NavigationView>

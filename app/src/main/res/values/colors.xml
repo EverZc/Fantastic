@@ -6,7 +6,8 @@
     <color name="white">#ffffff</color>
     <color name="balck">#FF000000</color>
     <color name="app_bg">#000000</color>
-
+    <color name="color_true">#FFFF5A5A</color>
+    <color name="color_false">#FFFF</color>
     <color name="button_out">#FF04790E</color>
     <color name="button_in">#0baf19</color>
     <color name="title_text">#FFFFFF</color>

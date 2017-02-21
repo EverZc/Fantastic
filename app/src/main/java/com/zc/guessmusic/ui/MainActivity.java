@@ -117,13 +117,13 @@ public class MainActivity extends BaseActivity implements IWordButtonClickListen
         rbshuochang= (RadioButton) findViewById(R.id.disc_shuochang);
         buttonList.add(rbshuochang);
         //分享
-        imageButtonShare= (ImageButton) findViewById(R.id.btn_share);
+        /*imageButtonShare= (ImageButton) findViewById(R.id.btn_share);
         imageButtonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // ShareSDK.initSDK(this);
             }
-        });
+        });*/
         //读取数据
         int[] datas=Util.loadData(this);
         mCurrentStageIndex=datas[Const.INDEX_LOAD_DATA_STAGE];

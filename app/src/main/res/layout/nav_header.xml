@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:padding="10dp"
-    android:background="?attr/colorPrimary">
+    android:background="@drawable/bg123">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/hdodenhof"
         android:layout_width="70dp"
@@ -14,6 +14,7 @@
         android:id="@+id/username"
         android:text="Zhang Chen"
         android:textSize="20sp"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/nav_emall"
@@ -21,6 +22,7 @@
     <TextView
         android:id="@+id/nav_emall"
         android:text="zc_prigram@163.com"
+        android:textColor="@color/white"
         android:textSize="15sp"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"

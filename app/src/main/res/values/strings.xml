@@ -4,6 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="puzzle_main_type">选择难度：</string>
     <string name="puzzle_main_steps">步数：</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="puzzle_main_img">原        图</string>
     <string name="puzzle_main_reset">重        置</string>
     <string name="puzzle_main_back">返        回</string>

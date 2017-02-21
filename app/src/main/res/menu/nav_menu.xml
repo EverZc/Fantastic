@@ -2,15 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_call"
-            android:title="call001"/>
-        <item
-            android:id="@+id/nav_firend"
-            android:icon="@drawable/headimage"
-            android:title="firend"/>
-        <item
             android:id="@+id/location"
-            android:icon="@drawable/android"
-            android:title="locaion"/>
+
+            android:title="毕业院校:"/>
+        <item
+            android:id="@+id/school"
+
+            android:title="内蒙古师范大学"/>
+        <item
+            android:id="@+id/nav_blog"
+            android:title="个人博客:"/>
+        <item
+            android:id="@+id/nav_csdn"
+            android:title="http://blog.csdn.net/panda_program"/>
+
     </group>
 </menu>
