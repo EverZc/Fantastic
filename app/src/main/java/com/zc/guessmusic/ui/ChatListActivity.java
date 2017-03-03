@@ -10,8 +10,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,26 +35,74 @@ import com.zc.guessmusic.adapter.ListViewAdapter;
 import com.zc.guessmusic.custom_ui.Chat_Button;
 import com.zc.guessmusic.model.Chat;
 import com.zc.guessmusic.model.ChatItemListViewBean;
+import com.zc.guessmusic.service.TCPServerService;
+import com.zc.guessmusic.util.MyUtils;
 
 import org.litepal.crud.DataSupport;
 import org.litepal.tablemanager.Connector;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.zc.guessmusic.R.drawable.android;
 
 public class ChatListActivity extends BaseActivity {
+    private static final int MESSAGE_RECEIVE_NEW_MSG = 1;
+    private static final int MESSAGE_SOCKET_CONNECTED = 2;
     private ListView mListView;
-    private EditText sendEdit,receiverEdit;
-    private Button sendButton;
+    private EditText receiverEdit;
     private Chat_Button receiverButton;
     private int ANDROID=0;
     private int APPLE=1;
     private List<ChatItemListViewBean> data ;
     private  ListViewAdapter listViewAdapter;
-    private String[] mCustomItems = new String[]{"复制", "转发","收藏","删除"};
 
+    private Socket mClientSocket;
+    private PrintWriter mPrintWriter;
+
+    private String[] mCustomItems = new String[]{"复制", "转发","收藏","删除"};
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MESSAGE_RECEIVE_NEW_MSG: {
+                    /*mMessageTextView.setText(mMessageTextView.getText()
+                            + (String) msg.obj );//*/
+                    SystemClock.sleep(800);
+                    Chat chat=new Chat();
+                    chat.setText((String) msg.obj);
+                    chat.setType(1);
+                    chat.setName("apple");
+                    chat.save();
+                    ChatItemListViewBean bean3 = new ChatItemListViewBean();
+                    bean3.setType(0);
+                    bean3.setIcon(BitmapFactory.decodeResource(getResources(),
+                            R.drawable.apple));
+                    bean3.setText((String) msg.obj);
+                    data.add(bean3);
+                    listViewAdapter.notifyDataSetChanged();
+
+                    mListView.setSelection(data.size()-1);
+                    Log.e("-----","Activity 这里写入的是服务器返回的聊天内容"+(String) msg.obj );
+
+                    break;
+                }
+                case MESSAGE_SOCKET_CONNECTED: {
+                    receiverButton.setEnabled(true);
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    };
     //返回键
     private ImageView imageView;
     @Override
@@ -59,35 +111,16 @@ public class ChatListActivity extends BaseActivity {
      //   getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_chat_list);
         data = new ArrayList<ChatItemListViewBean>();
-        imageView= (ImageView) findViewById(R.id.chat_title_return_imp);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(ChatListActivity.this,FirstZcActivity.class);
-                startActivity(intent);
-            }
-        });
-        mListView = (ListView) findViewById(R.id.listView_chat);
-        //listView跟随聊天上移
-        mListView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
-
-        //设置适配器
-        listViewAdapter=new ListViewAdapter(this, data);
-        mListView.setAdapter(listViewAdapter);
-        //加载数据库中的内容
-        addSQLContent();
-        mListView.setSelection(data.size()-1);
-
-
-        receiverEdit= (EditText) findViewById(R.id.chat_receiver);
-        receiverButton= (Chat_Button) findViewById(R.id.chat_receiver_button);
+        init();
         receiverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("-----","activity onclick");
-                if(receiverEdit.getText().toString().equals("")){
+                final String msg = receiverEdit.getText().toString();
+                if(TextUtils.isEmpty(msg)){
                     Toast.makeText(ChatListActivity.this,"输入消息不得为空",Toast.LENGTH_SHORT).show();
-                }else {
+                }else if (mPrintWriter!=null){
+
                     Chat chat=new Chat();
                     chat.setText(receiverEdit.getText().toString());
                     chat.setType(1);
@@ -100,7 +133,7 @@ public class ChatListActivity extends BaseActivity {
                     bean2.setText(receiverEdit.getText().toString());
                     data.add(bean2);
                     listViewAdapter.notifyDataSetChanged();
-
+                    mPrintWriter.println(msg);
                 }
                 mListView.setSelection(data.size()-1);
                 Intent intent=new Intent(ChatListActivity.this,ChatListActivity_Apple.class);
@@ -112,13 +145,8 @@ public class ChatListActivity extends BaseActivity {
                             .setContentText( receiverEdit.getText().toString())
                             .setWhen(System.currentTimeMillis())        //指定被创建的时间
                             .setSmallIcon(R.drawable.android)
-                            //设置系统小图标
                             .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.android))//设置大图标
-                            //        .setSound(Uri.fromFile(new File("/system/media/audio/ringtones/Luna.ogg")))
-                            //        .setVibrate(new long[]{0, 1000, 1000, 1000})  //设置震动的样式
-                            // .setLights(Color.GREEN, 1000, 1000)
                             .setDefaults(NotificationCompat.DEFAULT_ALL)            //设置震动
-                            //        .setStyle(new NotificationCompat.BigTextStyle().bigText("Learn how to build notifications, send and sync data, and use voice actions. Get the official Android IDE and developer tools to build apps for Android."))
                             .setPriority(NotificationCompat.PRIORITY_MAX)
                             .setContentIntent(pi)  //设置跳转
                             .build();
@@ -128,11 +156,88 @@ public class ChatListActivity extends BaseActivity {
                 receiverEdit.getText().clear();
             }
         });
+        Intent service = new Intent(this, TCPServerService.class);
+        startService(service);
+        new Thread() {
+            @Override
+            public void run() {
+                connectTCPServer();
+            }
+        }.start();
+
+    }
+
+    private void init() {
+        imageView= (ImageView) findViewById(R.id.chat_title_return_imp);
+        mListView = (ListView) findViewById(R.id.listView_chat);
+        receiverEdit= (EditText) findViewById(R.id.chat_receiver);
+        receiverButton= (Chat_Button) findViewById(R.id.chat_receiver_button);
+        //返回主界面
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(ChatListActivity.this,FirstZcActivity.class);
+                startActivity(intent);
+            }
+        });
+        //listView跟随聊天上移
+        mListView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+        //设置适配器
+        listViewAdapter=new ListViewAdapter(this, data);
+        mListView.setAdapter(listViewAdapter);
+        //加载数据库中的内容
+        addSQLContent();
+
         //创建数据库的表
         Connector.getDatabase();
         NotificationManager manager1= (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager1.cancel(2);
+        //listItem的监听
+        onItemLongClickListener();
+        mListView.setSelection(data.size()-1);
+    }
 
+    private void connectTCPServer() {
+        Socket socket = null;
+        while (socket == null) {
+            try {
+                socket = new Socket("localhost", 8008);
+                mClientSocket = socket;
+                //客户端输出数据
+                mPrintWriter = new PrintWriter(new BufferedWriter(
+                        //客户端输出数据
+                        new OutputStreamWriter(socket.getOutputStream())), true);
+                mHandler.sendEmptyMessage(MESSAGE_SOCKET_CONNECTED);
+                Log.e("---------------","Activity connect server success");
+            } catch (IOException e) {
+                SystemClock.sleep(1000);
+                Log.e("---------------","Activity connect tcp server failed, retry...");
+            }
+        }
+        try {
+            // 接收服务器端的消息
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    socket.getInputStream()));
+            while (!ChatListActivity.this.isFinishing()) {
+                String msg = br.readLine();
+
+                if (msg != null) {
+                    Log.e("---------------","Activity 接收到的消息是: " +msg);
+                    //String time = formatDateTime(System.currentTimeMillis());
+                    final String showedMsg =  msg;
+                    mHandler.obtainMessage(MESSAGE_RECEIVE_NEW_MSG, showedMsg)
+                            .sendToTarget();
+                }
+            }
+            Log.e("---------------","Activity quit...");
+            MyUtils.close(mPrintWriter);
+            MyUtils.close(br);
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void onItemLongClickListener() {
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -157,7 +262,6 @@ public class ChatListActivity extends BaseActivity {
                 return false;
             }
         });
-
     }
 
     private void myOnItemClick(int position,String text) {
@@ -186,25 +290,19 @@ public class ChatListActivity extends BaseActivity {
                         }else if (2==which){
                             Toast.makeText(ChatListActivity.this,"收藏成功(测试)",Toast.LENGTH_SHORT).show();
                         }else if (3==which){
-
                             int id=-1;
                             List<Chat> chats=DataSupport.findAll(Chat.class);
-
                             for (Chat chat:chats){
                                 if (chat.getText().equals(textUP)){
                                     id= chat.getId();
                                     Log.e("- id up--", String.valueOf(id));
                                 }
-                                //Log.e("- id-1-", textUP);
-
                             }
                             Log.e("- id--", String.valueOf(id));
                             DataSupport.delete(Chat.class, id);
                             data.clear();
                             addSQLContent();
                            // listViewAdapter.notifyDataSetChanged();
-
-
                         }
                     }
                 });
@@ -270,11 +368,11 @@ public class ChatListActivity extends BaseActivity {
                 if (isShouldHideKeyboard(v, ev)) {
                     //隐藏键盘~
                     hideKeyboard(v.getWindowToken());
-                    //
                 }
         }
         return super.dispatchTouchEvent(ev);
     }
+
     private boolean isShouldHideKeyboard(View v, MotionEvent event) {
         if (v != null && (v instanceof Button)) {
             return false;
@@ -311,5 +409,18 @@ public class ChatListActivity extends BaseActivity {
             InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mClientSocket != null) {
+            try {
+                mClientSocket.shutdownInput();
+                mClientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onDestroy();
     }
 }

@@ -192,6 +192,8 @@ public class FirstZcActivity extends AppCompatActivity {
                             startActivity(intentMusic);
                             break;
                         case R.id.imageView_d:
+                            Intent intBaiduMap=new Intent(FirstZcActivity.this,MapMainActivityTEXT.class);
+                            startActivity(intBaiduMap);
                             break;
                         case R.id.imageView_e:
                             Intent intent=new Intent(FirstZcActivity.this,ChatListActivity.class);

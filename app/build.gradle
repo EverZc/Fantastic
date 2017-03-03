@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
@@ -18,7 +17,6 @@ android {
         }
     }
 }
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -36,4 +34,8 @@ dependencies {
     compile 'com.lzy.net:okhttputils:1.8.1'
     compile 'fm.jiecao:jiecaovideoplayer:4.7.1_preview'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+}
+
+repositories {
+    flatDir { dir 'libs' }
 }

@@ -89,6 +89,7 @@
                     android:hint="请输入消息"/>
                 <com.zc.guessmusic.custom_ui.Chat_Button
                     android:id="@+id/chat_receiver_button"
+                    android:enabled="false"
                     android:layout_gravity="center"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
